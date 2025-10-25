@@ -1,0 +1,13 @@
+{
+  "name": "social-scheduler-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototype social scheduler dashboard supporting up to 50 channels per platform",
+  "scripts": {
+    "start": "lite-server",
+    "dev": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}

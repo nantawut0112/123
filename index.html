@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Scheduler Dashboard</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo">Social Scheduler</div>
+    <nav class="main-nav">
+      <a href="#platforms">แพลตฟอร์ม</a>
+      <a href="#composer">สร้างโพสต์</a>
+      <a href="#summary">สรุป</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="intro" class="hero">
+      <div class="hero-content">
+        <h1>จัดการช่องทางโซเชียลมีเดียได้สูงสุด 50 ช่องต่อแพลตฟอร์ม</h1>
+        <p>
+          อินเตอร์เฟซต้นแบบสำหรับระบบจัดตารางโพสต์ที่รองรับการเพิ่มช่องทางย่อย (Sub-channels)
+          ต่อแพลตฟอร์มได้ถึง 50 ช่อง พร้อมการเลือกเวลาโพสต์ และภาพรวมสถานะงานล่าสุด
+        </p>
+        <button id="create-post" class="primary">สร้างโพสต์ใหม่</button>
+      </div>
+      <div class="hero-illustration">
+        <div class="floating-card">
+          <span class="emoji">⚡</span>
+          <p>เพิ่มช่องใหม่ได้ทันที</p>
+        </div>
+        <div class="floating-card">
+          <span class="emoji">🗓️</span>
+          <p>วางแผนเนื้อหาเป็นสัปดาห์</p>
+        </div>
+        <div class="floating-card">
+          <span class="emoji">📊</span>
+          <p>ติดตามสถานะการโพสต์</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="platforms" class="platform-section">
+      <header class="section-header">
+        <div>
+          <h2>การเชื่อมต่อปฏิบัติงาน</h2>
+          <p>กำหนดช่องโพสต์ย่อยในแต่ละแพลตฟอร์มได้สูงสุด 50 ช่อง</p>
+        </div>
+        <div class="search-wrapper">
+          <input type="search" id="platform-search" placeholder="ค้นหาแพลตฟอร์มหรือช่องทาง" />
+        </div>
+      </header>
+
+      <div id="platform-list" class="platform-grid"></div>
+    </section>
+
+    <section id="composer" class="composer-section">
+      <h2>สร้างโพสต์ใหม่</h2>
+      <form id="post-form" class="composer-form">
+        <div class="form-group">
+          <label for="post-platform">เลือกแพลตฟอร์ม</label>
+          <select id="post-platform" required></select>
+        </div>
+        <div class="form-group">
+          <label for="post-channels">เลือกช่องทาง (เลือกได้หลายช่อง)</label>
+          <div id="post-channels" class="channel-checkboxes"></div>
+        </div>
+        <div class="form-group">
+          <label for="post-content">เนื้อหาโพสต์</label>
+          <textarea id="post-content" rows="5" placeholder="เขียนข้อความหรือวางคอนเทนต์" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="post-date">วันที่โพสต์</label>
+            <input type="date" id="post-date" required />
+          </div>
+          <div class="form-group">
+            <label for="post-time">เวลาโพสต์</label>
+            <input type="time" id="post-time" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="post-media">ลิงก์สื่อแนบ (ไม่บังคับ)</label>
+          <input type="url" id="post-media" placeholder="https://" />
+        </div>
+        <button class="primary" type="submit">จัดตารางโพสต์</button>
+      </form>
+    </section>
+
+    <section id="summary" class="summary-section">
+      <h2>งานที่เพิ่งวางแผน</h2>
+      <div id="scheduled-posts" class="scheduled-list empty">
+        <div class="empty-state">
+          <span class="emoji">📝</span>
+          <p>ยังไม่มีงานที่จัดตารางไว้</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <template id="platform-card-template">
+    <article class="platform-card">
+      <header>
+        <div class="platform-info">
+          <span class="platform-icon"></span>
+          <div>
+            <h3 class="platform-name"></h3>
+            <p class="platform-description"></p>
+          </div>
+        </div>
+        <span class="channel-count"></span>
+      </header>
+      <div class="channel-list"></div>
+      <div class="card-actions">
+        <button class="add-channel secondary" type="button">เพิ่มช่องทาง</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="channel-item-template">
+    <div class="channel-item">
+      <div>
+        <strong class="channel-name"></strong>
+        <p class="channel-meta"></p>
+      </div>
+      <button class="remove-channel" type="button" title="ลบช่องนี้">×</button>
+    </div>
+  </template>
+
+  <template id="scheduled-card-template">
+    <article class="scheduled-card">
+      <header>
+        <div>
+          <h3 class="scheduled-platform"></h3>
+          <p class="scheduled-datetime"></p>
+        </div>
+        <span class="scheduled-count"></span>
+      </header>
+      <p class="scheduled-content"></p>
+      <ul class="scheduled-channels"></ul>
+      <a class="scheduled-media" target="_blank" rel="noopener"></a>
+    </article>
+  </template>
+
+  <div id="channel-dialog" class="dialog hidden" role="dialog" aria-modal="true">
+    <div class="dialog-content">
+      <button class="dialog-close" type="button" aria-label="ปิด">×</button>
+      <h3>เพิ่มช่องทางใหม่</h3>
+      <form id="channel-form">
+        <div class="form-group">
+          <label for="channel-name">ชื่อช่องทาง</label>
+          <input type="text" id="channel-name" required placeholder="เช่น Facebook Group: Design Team" />
+        </div>
+        <div class="form-group">
+          <label for="channel-meta">รายละเอียดเพิ่มเติม</label>
+          <input type="text" id="channel-meta" placeholder="URL หรือคำอธิบายสั้น ๆ" />
+        </div>
+        <button class="primary" type="submit">เพิ่มช่องทาง</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="assets/js/app.js" type="module"></script>
+</body>
+</html>
